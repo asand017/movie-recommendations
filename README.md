@@ -86,3 +86,7 @@ Develop a full-stack movie recommendation system using Python for the backend, D
 - [Docker Compose Documentation](https://docs.docker.com/compose/)
 
 By completing this project, you will demonstrate your ability to handle full-stack development, machine learning, and deployment, all of which are key skills for an AI Full Stack Engineer.
+
+
+## How to run:
+$ cd ordained && docker-compose up --build
