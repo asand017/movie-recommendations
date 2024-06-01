@@ -89,4 +89,4 @@ By completing this project, you will demonstrate your ability to handle full-sta
 
 
 ## How to run:
-$ cd ordained && docker-compose up --build
+$ cd ordained && ./clean_start.sh
