@@ -28,4 +28,4 @@ COPY . .
 EXPOSE 5000
 
 # Command to run the application
-CMD ["gunicorn", "-w", "2","--threads", "2", "-b", "0.0.0.0:5001", "wsgi:app"]
+CMD ["gunicorn", "-w", "1","--threads", "2", "--timeout", "120", "-b", "0.0.0.0:5001", "wsgi:app"]
