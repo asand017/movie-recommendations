@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
-from app import db
+from sqlalchemy import text
 from app.models import Movie
 from app.recommender import recommend_movies
+from app import db
 
 api = Blueprint('api', __name__)
 
@@ -11,13 +12,17 @@ def home():
 
 @api.route('/movies', methods=['GET'])
 def get_movies():
-    pass
-    # movies = Movie.query.all()
-    # return jsonify([movie.title for movie in movies])
+    return jsonify({"message": "This is the movies endpoint"})
 
 @api.route('/recommend', methods=['POST'])
 def recommend():
-    pass
-    # user_preferences = request.json
-    # recommendations = recommend_movies(user_preferences)
-    # return jsonify(recommendations)
+    return jsonify({"message": "This is the recommend endpoint"})
+
+@api.route('/test_db', methods=['GET'])
+def test_db():
+    try:
+        # Attempt to connect to the database
+        db.session.execute(db.select(text('1')))
+        return jsonify({"message": "Database connection successful"}), 200
+    except Exception as e:
+        return jsonify({"message": "Database connection failed", "error": str(e)}), 500

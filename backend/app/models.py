@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column
-from .base_model import db
+from app import db
 
 class Movie(db.Model):
     __tablename__ = "movies"

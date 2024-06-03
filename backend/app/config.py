@@ -1,5 +1,8 @@
 import os
 import urllib.parse
+# from flask import Flask
+
+# app = Flask(__name__)
 
 POSTGRES_USER = os.getenv("POSTGRES_USER", "username")
 POSTGRES_PASSWORD = urllib.parse.quote(os.getenv("POSTGRES_PASSWORD", "password"))
