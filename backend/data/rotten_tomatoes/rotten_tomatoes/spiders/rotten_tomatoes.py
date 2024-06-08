@@ -3,6 +3,7 @@ import scrapy
 from pathlib import Path
 import pandas as pd
 
+# TODO: crawling rotten tomatoes blocked, find work around, secure proxies?
 class RottenTomatoesSpider(scrapy.Spider):
     name = "rotten_tomatoes"
     allowed_domains = ["rottentomatoes.com"]
@@ -19,7 +20,6 @@ class RottenTomatoesSpider(scrapy.Spider):
         # for title in df['primaryTitle']:
         #     urls.append(str(base_url) + str(title))
 
-        print(urls)
         urls = [
             "https://www.rottentomatoes.com/m/civil_war_2024",
             "https://www.rottentomatoes.com/m/bad_boys_ride_or_die",

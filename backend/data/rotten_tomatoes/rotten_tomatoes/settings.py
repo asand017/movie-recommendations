@@ -46,20 +46,22 @@ ROBOTSTXT_OBEY = True
 #    "Accept-Language": "en",
 #}
 
+# DOWNLOADER_CLIENTCONTEXTFACTORY = 'rotten_tomatoes.middlewares.CustomClientContextFactory'
+
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
    "rotten_tomatoes.middlewares.RottenTomatoesSpiderMiddleware": 543,
 }
-
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
 #    "rotten_tomatoes.middlewares.RottenTomatoesDownloaderMiddleware": 543,
 #}
 DOWNLOADER_MIDDLEWARES = {
+    'rotten_tomatoes.middlewares.ProxyMiddleware': 543,
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
-    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
+    # 'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
 }
 
 
@@ -107,3 +109,6 @@ DOWNLOAD_DELAY = random.uniform(1, 3)  # Random delay between 1 and 3 seconds
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 
 COOKIES_ENABLED = True
+
+DOWNLOADER_CLIENT_TLS_METHOD = 'TLS'
+DOWNLOADER_CLIENT_TLS_VERIFY = False

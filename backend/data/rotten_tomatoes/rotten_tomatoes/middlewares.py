@@ -5,11 +5,14 @@
 
 from scrapy import signals
 
-import random
-
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
+import random
+import requests
+from bs4 import BeautifulSoup
+import ssl
+# from scrapy.core.downloader.contextfactory import ScrapyClientContextFactory
 
 class RottenTomatoesSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -104,8 +107,18 @@ class RottenTomatoesDownloaderMiddleware:
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
 
+# class CustomClientContextFactory(ScrapyClientContextFactory):
+#     def __init__(self):
+#         self.sslcontext = ssl.create_default_context()
 
-# import random
+#         # Disable only hostname verification
+#         self.sslcontext.check_hostname = False
+
+#         # Keep certificate validation enabled
+#         self.sslcontext.verify_mode = ssl.CERT_REQUIRED
+
+#     def getContext(self, hostname=None, port=None):
+#         return self.sslcontext
 
 # class RotateUserAgentMiddleware:
 #     user_agents = [
@@ -129,3 +142,17 @@ class ProxyMiddleware:
             proxy = random.choice(self.proxies)
             request.meta['proxy'] = f"http://{proxy}"
             spider.log(f'Using proxy: {proxy}')
+
+def fetch_free_proxies():
+    url = 'https://www.free-proxy-list.net/'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    proxies = []
+    
+    for row in soup.find('table').find_all('tr')[1:]:
+        cols = row.find_all('td')
+        if cols[4].text == 'elite proxy' and cols[6].text == 'yes':
+            proxy = f"{cols[0].text}:{cols[1].text}"
+            proxies.append(proxy)
+    
+    return proxies
