@@ -5,6 +5,8 @@
 
 from scrapy import signals
 
+import random
+
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
@@ -101,3 +103,29 @@ class RottenTomatoesDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
+
+
+# import random
+
+# class RotateUserAgentMiddleware:
+#     user_agents = [
+#         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+#         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15',
+#         # Add more user agents here
+#     ]
+
+#     def process_request(self, request, spider):
+#         request.headers['User-Agent'] = random.choice(self.user_agents)
+
+class ProxyMiddleware:
+    def __init__(self):
+        self.proxies = fetch_free_proxies()
+        # Alternatively, load proxies from a file
+        # with open('proxies.txt', 'r') as f:
+        #     self.proxies = [line.strip() for line in f]
+
+    def process_request(self, request, spider):
+        if self.proxies:
+            proxy = random.choice(self.proxies)
+            request.meta['proxy'] = f"http://{proxy}"
+            spider.log(f'Using proxy: {proxy}')

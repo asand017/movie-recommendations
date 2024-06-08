@@ -12,9 +12,9 @@ class RottenTomatoesSpider(scrapy.Spider):
         base_url = "https://www.rottentomatoes.com/m/"
         relative_path = '../raw/movies.csv'
         absolute_path = os.path.abspath(relative_path)
-        df = pd.read_csv(absolute_path)
-        df['primaryTitle'] = df['primaryTitle'].str.replace(' ', '_').str.replace(r"[,\'\:\-\?]", '', regex=True)
-        df['primaryTitle'] = df['primaryTitle'].str.lower()
+        # df = pd.read_csv(absolute_path)
+        # df['primaryTitle'] = df['primaryTitle'].str.replace(' ', '_').str.replace(r"[,\'\:\-\?]", '', regex=True)
+        # df['primaryTitle'] = df['primaryTitle'].str.lower()
 
         # for title in df['primaryTitle']:
         #     urls.append(str(base_url) + str(title))
@@ -39,12 +39,18 @@ class RottenTomatoesSpider(scrapy.Spider):
         critic_rating = response.css('rt-button[slot="criticsScore"] > rt-text::text').get()
         audience_rating = response.css('rt-button[slot="audienceScore"] > rt-text::text').get()
         description = response.css('drawer-more[slot="description"] > rt-text::text').get()
+
         print("title: " + title)
         print("release date: " + release_date)
         print("director: " + director)
         print("critic_rating: " + critic_rating)
         print("audience rating: " + audience_rating)
         print("description: " + description)
+
+        if(title == 'Civil War'):
+            print("CIvil war check")
+        
+
         yield {
             "title": title,
             "release_date": release_date,
