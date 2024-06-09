@@ -4,10 +4,11 @@ from flask_cors import CORS # type: ignore
 from .config import Config
 from .base_model import Base
 import logging
+from flask_migrate import Migrate
 
 logging.basicConfig(level=logging.DEBUG)
 
-db = SQLAlchemy(model_class=Base) 
+db = SQLAlchemy(model_class=Base)
 
 def create_app():
     app = Flask(__name__)
@@ -15,6 +16,7 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     with app.app_context():
         from . import routes, models

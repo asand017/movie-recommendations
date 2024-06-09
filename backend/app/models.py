@@ -7,7 +7,12 @@ class Movie(db.Model):
     title: Mapped[str] = mapped_column(db.String(255), nullable=False)
     genre: Mapped[str] = mapped_column(db.String(255))
     year: Mapped[int]
-    description: Mapped[str] = mapped_column(db.Text)
+    directors: Mapped[str] = mapped_column(db.String(255), nullable=False)
+    runtime: Mapped[int]
+    description: Mapped[str] = mapped_column(db.Text, nullable=True)
+    review: Mapped[str] = mapped_column(db.Text, nullable=True)
+    imdb_rating: Mapped[float] = mapped_column(db.Float)
+    imdb_votes: Mapped[int]
 
 class User(db.Model):
     __tablename__ = "users"
@@ -23,6 +28,7 @@ class Rating(db.Model):
     user_id: Mapped[int] = mapped_column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     movie_id: Mapped[int] = mapped_column(db.Integer, db.ForeignKey('movies.id'), nullable=False)
     rating: Mapped[float] = mapped_column(db.Float, nullable=False)
+    count: Mapped[int]
     review: Mapped[str] = mapped_column(db.Text)
 
     # define foreign keys
