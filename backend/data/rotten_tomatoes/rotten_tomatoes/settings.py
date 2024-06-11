@@ -29,7 +29,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -60,7 +60,7 @@ SPIDER_MIDDLEWARES = {
 #}
 DOWNLOADER_MIDDLEWARES = {
     'rotten_tomatoes.middlewares.ProxyMiddleware': 543,
-    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    # 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
     # 'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
 }
 
@@ -106,9 +106,9 @@ FEED_EXPORT_ENCODING = "utf-8"
 RANDOMIZE_DOWNLOAD_DELAY = True
 DOWNLOAD_DELAY = random.uniform(1, 3)  # Random delay between 1 and 3 seconds
 
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
 
 COOKIES_ENABLED = True
 
-DOWNLOADER_CLIENT_TLS_METHOD = 'TLS'
-DOWNLOADER_CLIENT_TLS_VERIFY = False
+# DOWNLOADER_CLIENT_TLS_METHOD = 'TLS'
+# DOWNLOADER_CLIENT_TLS_VERIFY = False

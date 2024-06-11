@@ -12,6 +12,7 @@ import random
 import requests
 from bs4 import BeautifulSoup
 import ssl
+import logging
 # from scrapy.core.downloader.contextfactory import ScrapyClientContextFactory
 
 class RottenTomatoesSpiderMiddleware:
@@ -36,6 +37,8 @@ class RottenTomatoesSpiderMiddleware:
     def process_spider_output(self, response, result, spider):
         # Called with the results returned from the Spider, after
         # it has processed the response.
+   
+        # logging.debug(f'RESPONSE: {response.body}')
 
         # Must return an iterable of Request, or item objects.
         for i in result:

@@ -8,6 +8,10 @@ app = create_app()
 app.app_context().push()
 
 def ingest_movies(file):
+    if(db.first_or_404(db.select(Movie))):
+        print("Movies already ingested")
+        return
+    
     df = pd.read_csv(file)
     for _, row in df.iterrows():
         movie = Movie(title=row['primaryTitle'],

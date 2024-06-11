@@ -13,6 +13,20 @@ class Movie(db.Model):
     review: Mapped[str] = mapped_column(db.Text, nullable=True)
     imdb_rating: Mapped[float] = mapped_column(db.Float)
     imdb_votes: Mapped[int]
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'genre': self.genre,
+            'year': self.year,
+            'directors': self.directors,
+            'runtime': self.runtime,
+            'description': self.description,
+            'review': self.review,
+            'imdb_rating': self.imdb_rating,
+            'imdb_votes': self.imdb_votes
+        }
 
 class User(db.Model):
     __tablename__ = "users"

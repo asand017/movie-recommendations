@@ -12,7 +12,20 @@ def home():
 
 @api.route('/movies', methods=['GET'])
 def get_movies():
-    return jsonify({"message": "This is the movies endpoint"})
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+    movie_page = db.paginate(db.select(Movie), page=page, per_page=per_page)
+    movies = movie_page.items
+    return jsonify({
+        'data': [movie.to_dict() for movie in movies],
+        'total': movie_page.total,
+        'pages': movie_page.pages,
+        'current_page': movie_page.page,
+        'next_page': movie_page.next_num,
+        'prev_page': movie_page.prev_num,
+        'has_next': movie_page.has_next,
+        'has_prev': movie_page.has_prev
+    })
 
 @api.route('/recommend', methods=['POST'])
 def recommend():
