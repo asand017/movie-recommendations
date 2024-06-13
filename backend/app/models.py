@@ -13,6 +13,7 @@ class Movie(db.Model):
     review: Mapped[str] = mapped_column(db.Text, nullable=True)
     imdb_rating: Mapped[float] = mapped_column(db.Float)
     imdb_votes: Mapped[int]
+    imdb_id: Mapped[str] = mapped_column(db.String(50), nullable=False)
     
     def to_dict(self):
         return {
@@ -25,7 +26,8 @@ class Movie(db.Model):
             'description': self.description,
             'review': self.review,
             'imdb_rating': self.imdb_rating,
-            'imdb_votes': self.imdb_votes
+            'imdb_votes': self.imdb_votes,
+            'imdb_id': self.imdb_id
         }
 
 class User(db.Model):
