@@ -4,6 +4,8 @@ from app import create_app, db
 from app.models import Movie, Rating, User
 from sqlalchemy.exc import IntegrityError
 
+""" ingest data sources into recommendation app db """
+
 app = create_app()
 app.app_context().push()
 
@@ -15,7 +17,7 @@ def ingest_movies(file):
     df = pd.read_csv(file)
     for _, row in df.iterrows():
         movie = Movie(title=row['primaryTitle'],
-                      genre=row['genres'], year=row['release_date'], description='', review='',
+                      genre=row['genres'], year=row['release_date'], description=row['description'], review=row['review'],
                         directors=row['directors'], runtime=row['runtimeMinutes'], 
                         imdb_rating=row['averageRating'], imdb_votes=row['numVotes'])
         db.session.add(movie)
@@ -49,5 +51,5 @@ def ingest_movies(file):
 
 
 if __name__ == '__main__':
-    data_file = os.path.abspath('data/raw/movies.csv')
+    data_file = os.path.abspath('data/processed/movies.csv')
     ingest_movies(data_file)

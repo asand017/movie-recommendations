@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+""" proxy scrapper pulling free open proxies for use in web crawling data without getting blocked so easily """
 def fetch_free_proxies():
     url = 'https://www.free-proxy-list.net/'
     response = requests.get(url)

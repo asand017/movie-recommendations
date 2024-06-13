@@ -26,6 +26,15 @@ def get_movies():
         'has_next': movie_page.has_next,
         'has_prev': movie_page.has_prev
     })
+    
+@api.route('/rate/<int:movie_id>', methods=['POST'])
+def rate_movie(movie_id):
+    req = request.get_json()
+    movie = db.session.execute(db.select(Movie).filter_by(id=movie_id))
+    print("rating " + movie.title)
+    print(req)
+    return 200
+    
 
 @api.route('/recommend', methods=['POST'])
 def recommend():

@@ -90,3 +90,9 @@ By completing this project, you will demonstrate your ability to handle full-sta
 
 ## How to run:
 $ cd ordained && ./clean_start.sh
+
+## Generating movie data
+
+* 'collect_data.py' will write imdb dataset data to csv in data/raw/ folder
+* 'moviedb_ingest.py' will write post-appended imdb csv data with descriptions and reviews if available from TMDB (the movie database)
+* docker job 'docker-ingest' will push processed data to recommender db
