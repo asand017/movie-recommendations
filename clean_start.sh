@@ -1,3 +1,5 @@
 #!/bin/bash
 docker-compose down
-docker-compose up --build
+docker system prune -a -f --volumes
+docker-compose build --no-cache
+docker-compose up

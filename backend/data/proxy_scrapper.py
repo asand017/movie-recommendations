@@ -1,5 +1,5 @@
-import requests
-from bs4 import BeautifulSoup
+import requests # type: ignore
+from bs4 import BeautifulSoup # type: ignore
 
 """ proxy scrapper pulling free open proxies for use in web crawling data without getting blocked so easily """
 def fetch_free_proxies():

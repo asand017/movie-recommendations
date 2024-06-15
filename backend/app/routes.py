@@ -1,5 +1,5 @@
-from flask import Blueprint, request, jsonify
-from sqlalchemy import text
+from flask import Blueprint, request, jsonify # type: ignore
+from sqlalchemy import text # type: ignore
 from app.models import Movie
 from app.recommender import recommend_movies
 from app import db

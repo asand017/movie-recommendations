@@ -1,6 +1,6 @@
 from app import create_app, db
 import os
-from sqlalchemy import text
+from sqlalchemy import text # type: ignore
 # from app.models import Movie
 
 run_flag = os.getenv("RUN_FLAG")

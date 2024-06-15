@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column # type: ignore
 from app import db
 
 class Movie(db.Model):
@@ -14,6 +14,9 @@ class Movie(db.Model):
     imdb_rating: Mapped[float] = mapped_column(db.Float)
     imdb_votes: Mapped[int]
     imdb_id: Mapped[str] = mapped_column(db.String(50), nullable=False)
+    tmdb_id: Mapped[str] = mapped_column(db.String(25), nullable=True)
+    backdrop_path: Mapped[str] = mapped_column(db.String(255), nullable=True)
+    poster_path: Mapped[str] = mapped_column(db.String(255), nullable=True)
     
     def to_dict(self):
         return {
@@ -27,7 +30,10 @@ class Movie(db.Model):
             'review': self.review,
             'imdb_rating': self.imdb_rating,
             'imdb_votes': self.imdb_votes,
-            'imdb_id': self.imdb_id
+            'imdb_id': self.imdb_id,
+            'tmdb_id': self.tmdb_id,
+            'backdrop_path': self.backdrop_path,
+            'poster_path': self.poster_path
         }
 
 class User(db.Model):

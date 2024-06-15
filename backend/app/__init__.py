@@ -1,14 +1,14 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask # type: ignore
+from flask_sqlalchemy import SQLAlchemy # type: ignore
 from flask_cors import CORS # type: ignore
 from .config import Config
-from .base_model import Base
 import logging
-from flask_migrate import Migrate
+from flask_migrate import Migrate # type: ignore
+# from sqlalchemy.orm import scoped_session, sessionmaker # type: ignore
 
 logging.basicConfig(level=logging.DEBUG)
 
-db = SQLAlchemy(model_class=Base)
+db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
@@ -22,5 +22,7 @@ def create_app():
         from . import routes, models
         app.register_blueprint(routes.api)
         db.create_all()
+        
+        # db.session = scoped_session(sessionmaker(bind=db.engine))
 
     return app
