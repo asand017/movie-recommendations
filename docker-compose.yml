@@ -22,12 +22,13 @@ services:
       - ./backend:/app
     entrypoint: ["/app/entrypoint.sh"]
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:80"
-    depends_on:
-      - backend
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "3000:80" # prod port binding
+  #     # - "3000:3000" # dev port binding
+  #   depends_on:
+  #     - backend
 
   db:
     image: postgres:16

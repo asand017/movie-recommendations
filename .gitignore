@@ -161,6 +161,11 @@ cython_debug/
 
 .DS_Store
 
+# backend resources I don't want to track in github
+# backend/data/processed/*.csv
+# backend/data/raw/movies.csv
+backend/data/rotten_tomatoes
+
 # dependencies
 /frontend/node_modules
 /frontend/.pnp

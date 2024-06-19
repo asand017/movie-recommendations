@@ -43,7 +43,6 @@ class User(db.Model):
     email: Mapped[str] = mapped_column(db.String(255), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(db.String(255), nullable=False)
 
-# TODO: use migration pattern for db changes, want to add critics and audience ratings tables for rottentomatoes data
 class Rating(db.Model):
     __tablename__ = "ratings"
     id: Mapped[int] = mapped_column(primary_key=True)

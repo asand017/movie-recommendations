@@ -8,8 +8,9 @@ from app.models import Movie
 # from sqlalchemy import update
 import concurrent.futures
 import threading
+import time
 from sqlalchemy.exc import IntegrityError # type: ignore
-from sqlalchemy import text, update, select # type: ignore
+from sqlalchemy import update, select, desc # type: ignore
 
 
 """ ingest data sources into recommendation app db """
@@ -54,6 +55,7 @@ def ingest_movies(file):
                 print(f"Error adding movie: {e}")
         
 def get_tmdb_data(full_url):
+    time.sleep(0.1)
     r = requests.get(full_url, headers=headers)
     return json.loads(r.text)
         
@@ -119,26 +121,14 @@ if __name__ == '__main__':
     elif(job == "add_movie_images"):
         # print("ADDING IMAGES")
         with app.app_context():
-            # print("in the app context")
-            # movies = db.session.execute(text('select * from movies where movies.tmdb_id=\'\'')).fetchall()
-            stmt = select(Movie).where(Movie.tmdb_id == None)
+            stmt = select(Movie).where(Movie.tmdb_id == None).order_by(desc(Movie.id))
             print(stmt)
             movies = db.session.execute(stmt).scalars().all()
-            print("length of selection: " + str(len(movies)))
-            # with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-            #     movies_to_parse = {executor.submit(add_images, movie): movie for movie in movies}
-            #     for future in concurrent.futures.as_completed(movies_to_parse):
-            #         m = movies_to_parse[future]
-            #         try:
-            #             data = future.result()
-            #         except Exception as e:
-            #             print(f"generated an exception: {e}")
-            # print("finished adding images. Closing final session...")
-            # print("movies collected")
+            print("length of selection: " + str(len(movies)))     
             
             movie_updates = []
-            print("empty movie updates list:")
-            print(movie_updates)
+            # print("empty movie updates list:")
+            # print(movie_updates)
             for movie in movies:
                 
                 # print("imdb_id: " + str(movie.imdb_id))
