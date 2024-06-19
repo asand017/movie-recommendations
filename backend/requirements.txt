@@ -9,3 +9,4 @@ gevent==21.8.0
 Werkzeug==3.0.0
 pandas==2.2.2
 requests==2.32.3
+Flask-JWT-Extended==4.6.0

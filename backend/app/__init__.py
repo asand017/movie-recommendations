@@ -6,16 +6,20 @@ import logging
 from flask_migrate import Migrate # type: ignore
 # from sqlalchemy.orm import scoped_session, sessionmaker # type: ignore
 
+from flask_jwt_extended import JWTManager # type: ignore
+
 logging.basicConfig(level=logging.DEBUG)
 
 db = SQLAlchemy()
+jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
     # CORS(app)
     app.config.from_object(Config)
-
+    jwt.init_app(app)
     db.init_app(app)
+    
     migrate = Migrate(app, db)
 
     with app.app_context():
