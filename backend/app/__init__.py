@@ -15,7 +15,7 @@ jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
-    # CORS(app)
+    CORS(app)
     app.config.from_object(Config)
     jwt.init_app(app)
     db.init_app(app)
@@ -24,7 +24,7 @@ def create_app():
 
     with app.app_context():
         from . import routes, models
-        app.register_blueprint(routes.api)
+        app.register_blueprint(routes.api, url_prefix='/api')
         db.create_all()
         
         # db.session = scoped_session(sessionmaker(bind=db.engine))
