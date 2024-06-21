@@ -1,6 +1,10 @@
-const Header = () => {
+const Header = ({className = ""} : {className?: string}) => {
     return (
-        <div className="text-lg">Header</div>
+        <header className={`bg-gray-800 text-white ${className} w-screen`}>
+            <div className="container mx-auto p-4">
+                <p className="text-center">Header</p>
+            </div>
+        </header>
     )
 }
 

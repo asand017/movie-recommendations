@@ -2,28 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+} */
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 48, 25, 52;  /* Dark purple start color */
+  --background-end-rgb: 25, 0, 51;     /* Darker purple end color */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 48, 25, 52;  
+    --background-end-rgb: 25, 0, 51;
   }
 }
 
 body {
+  background: linear-gradient(90deg, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb)));
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Ensure the gradient covers the full height of the viewport */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
 }
 
 @layer utilities {
