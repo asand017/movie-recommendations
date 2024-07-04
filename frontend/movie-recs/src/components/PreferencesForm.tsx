@@ -14,8 +14,12 @@ const PreferencesForm = () => {
     }
 
     return(
-        <form onSubmit={handleSubmit}>
-
+        <form onSubmit={handleSubmit} name='preferences'>
+            <div className="genres">
+                
+            </div>
+            <div className="runtime"></div>
+            <div className="movies"></div>
         </form>
     )
 }

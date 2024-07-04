@@ -6,7 +6,7 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col justify-center p-4 h-full space-y-4">
+    <div className="flex flex-col justify-center p-4 h-full space-y-16">
       <div className="flex flex-col space-y-2 text-2xl">
         <h1 className="text-5xl">Don't know what to watch?</h1>
         <h2 className="text-4xl">Suffering from choice paraylsis?</h2>

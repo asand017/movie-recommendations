@@ -8,7 +8,7 @@ from flask_migrate import Migrate # type: ignore
 
 from flask_jwt_extended import JWTManager # type: ignore
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG) # TODO: instrument logger
 
 db = SQLAlchemy()
 jwt = JWTManager()

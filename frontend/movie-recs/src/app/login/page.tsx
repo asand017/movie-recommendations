@@ -1,36 +1,94 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { login as apiLogin } from "@/utils/api";
+import { useAuth } from '@/context/AuthContext';
+
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+  const { login } = useAuth();
   const router = useRouter();
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5001/api/login', { username, password });
-      localStorage.setItem('token', response.data.access_token);
-      router.push('/movies');
+      const response = await apiLogin(formData);
+      console.log("fetching jwt token: ", response.access_token);
+      login(response.access_token);
+      localStorage.setItem("auth_token", response.access_token);
+      router.push("/movies");
+      
     } catch (error) {
-      console.error('Error logging in', error);
+      console.error("Error logging in", error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username:</label>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md text-black"
+      autoComplete="off"
+    >
+      <h2 className="text-2xl font-bold mb-6 underline">Login</h2>
+      <div className="mb-4">
+        <label
+          htmlFor="name"
+          className="block text-gray-700 font-semibold mb-2"
+        >
+          Username:
+        </label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Your username"
+          autoComplete="off"
+          required
+        />
       </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <div className="mb-4">
+        <label
+          htmlFor="password"
+          className="block text-gray-700 font-semibold mb-2"
+        >
+          Password
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Your password"
+          autoComplete="off"
+          required
+        />
       </div>
-      <button type="submit">Login</button>
+      <button
+        type="submit"
+        className="w-full bg-blue-500 text-white p-3 rounded-lg font-semibold shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+      >
+        Login
+      </button>
     </form>
   );
 };

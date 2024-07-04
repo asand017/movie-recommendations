@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { AuthProvider } from '../context/AuthContext';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>Movie Recommendations</title>
+      </head>
       <body className={`${inter.className} min-h-screen flex flex-col`}>
-      <Header className="h-16 flex-shrink-0" />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer className="h-16 flex-shrink-0" />
+        <AuthProvider>
+          <Header className="bg-gray-600 text-white p-1"/>
+          <main className="flex-1 p-4 overflow-auto">
+            {children}
+          </main>
+          <Footer className="bg-gray-600 text-white p-1"/>
+        </AuthProvider>
       </body>
     </html>
   );

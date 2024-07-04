@@ -32,13 +32,15 @@ def login():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
     if username != "test" or password != "test":
+        print("Bad username or password")
         return jsonify({"msg": "Bad username or password"}), 401
-    
+    print("Good username and password")
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token)
 
 @api.route("/logout", methods=["POST"])
 def logout():
+    print("logging out")
     response = jsonify({"msg": "logout successful"})
     unset_jwt_cookies(response)
     return response
