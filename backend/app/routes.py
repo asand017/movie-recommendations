@@ -5,6 +5,8 @@ from app.recommender import recommend_movies
 from datetime import datetime, timedelta, timezone
 from app import db, jwt
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, unset_jwt_cookies, get_jwt, set_access_cookies # type: ignore
+import os
+import requests # type: ignore
 
 api = Blueprint('api', __name__)
 
@@ -45,11 +47,26 @@ def logout():
     unset_jwt_cookies(response)
     return response
 
+@api.route('/configuration', methods=['GET'])
+def get_configuration():
+    tmdb_token = os.getenv('TMDB_TOKEN')
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer " + tmdb_token
+    }
+    
+    url = "https://api.themoviedb.org/3/configuration"
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
+    
+
 @api.route('/movies', methods=['GET'])
 def get_movies():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
-    movie_page = db.paginate(db.select(Movie), page=page, per_page=per_page)
+    print("page: " + str(page))
+    print("per_page: " + str(per_page))
+    movie_page = db.paginate(db.select(Movie).where(Movie.poster_path != ""), page=page, per_page=per_page)
     movies = movie_page.items
     return jsonify({
         'data': [movie.to_dict() for movie in movies],

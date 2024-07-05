@@ -10,17 +10,23 @@ const api = axios.create({
 export const login = async (formData: any) => {
   const response = await api.post('/login', formData);
   console.log(JSON.stringify(response.data));
-  return response.data;
+  return response?.data;
 };
 
 export const register = async (username: string, password: string) => { // TODO: add register flow to login route
   const response = await api.post('/register', { username, password });
+  return response?.data;
+};
+
+export const getConfiguration = async () => {
+  const response = await api.get('/configuration');
   return response.data;
 };
 
 export const getMovies = async (page_number: number = 1, per_page: number = 10) => {
+  console.log("fetching movies: ", page_number, per_page);
   const response = await api.get('/movies', {
-    data: {
+    params: {
         "page": page_number,
         "per_page": per_page,
     }
@@ -36,5 +42,5 @@ export const fetchProtectedData = async (token: string) => { // TODO: rating api
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response?.data;
 };

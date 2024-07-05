@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { login as apiLogin } from "@/utils/api";
 import { useAuth } from '@/context/AuthContext';
@@ -30,13 +30,18 @@ const LoginPage = () => {
       const response = await apiLogin(formData);
       console.log("fetching jwt token: ", response.access_token);
       login(response.access_token);
-      localStorage.setItem("auth_token", response.access_token);
       router.push("/movies");
       
     } catch (error) {
       console.error("Error logging in", error);
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("auth_token")) {
+      router.push("/movies");
+    }
+  }, []);
 
   return (
     <form
