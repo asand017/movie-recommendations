@@ -1,6 +1,13 @@
+"use client";
+
+import MovieCard from "@/components/MovieCard";
+
 const Movie = () => {
     return (
-        <div className="text-lg">Movie</div>
+        <div>
+            <div className="text-lg">Movie</div>
+            <MovieCard/>
+        </div>
     )
 }
 

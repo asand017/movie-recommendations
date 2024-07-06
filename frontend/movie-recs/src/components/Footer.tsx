@@ -1,3 +1,5 @@
+"use client";
+
 const Footer = ({className = ""} : {className?: string}) => {
     return (
         <footer className={`bg-gray-800 text-white ${className} w-screen`}>

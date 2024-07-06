@@ -30,7 +30,7 @@ const LoginPage = () => {
       const response = await apiLogin(formData);
       console.log("fetching jwt token: ", response.access_token);
       login(response.access_token);
-      router.push("/movies");
+      router.push("/preferences");
       
     } catch (error) {
       console.error("Error logging in", error);

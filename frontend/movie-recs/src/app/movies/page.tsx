@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 // if the first login, enter an initial preferences module to get preferences and should use to filter returned movies accordingly
-
+// TODO: add search feature/api
 const Movies = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
