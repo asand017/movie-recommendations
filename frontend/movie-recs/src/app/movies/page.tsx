@@ -77,9 +77,10 @@ const Movies = () => {
   }),
     [movies];
 
+    // TODO: fix overflow issues
   return (
     <div className="p-4 text-black overflow-auto flex flex-col justify-center space-y-3">
-      <div className="flex flex-wrap justify-center">
+      <div className="flex flex-wrap justify-center overflow-auto">
         {movies.map((movie, index) => (
           <div key={index} className="w-auto px-2 mb-4">
             <div className="bg-gray-100 p-4 rounded-lg shadow-md">

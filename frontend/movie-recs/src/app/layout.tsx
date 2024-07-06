@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <AuthProvider>
           <Header className="bg-gray-600 text-white p-1"/>
-          <main className="flex-1 p-4 overflow-auto flex content-center justify-center">
+          <main className="flex-1 p-4 overflow-auto flex h-full">
             {children}
           </main>
           <Footer className="bg-gray-600 text-white p-1"/>
