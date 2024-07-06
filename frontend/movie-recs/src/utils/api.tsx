@@ -23,12 +23,13 @@ export const getConfiguration = async () => {
   return response.data;
 };
 
-export const getMovies = async (page_number: number = 1, per_page: number = 10) => {
+export const getMovies = async (page_number: number = 1, per_page: number = 10, search: string = "") => {
   console.log("fetching movies: ", page_number, per_page);
   const response = await api.get('/movies', {
     params: {
         "page": page_number,
         "per_page": per_page,
+        "search": search
     }
   }).catch((error) => {
     console.log(error.toJSON());

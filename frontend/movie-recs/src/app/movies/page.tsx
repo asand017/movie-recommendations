@@ -17,6 +17,7 @@ const Movies = () => {
   const [previousPage, setPreviousPage] = useState(1);
   const [count_per_page, setCountPerPage] = useState(20);
   const [tmdbConfig, setTmdbConfig] = useState<any>({});
+  const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState<
     {
       title: string;
@@ -50,7 +51,7 @@ const Movies = () => {
 
   const fetchMovies = async () => {
     try {
-      const response = await getMovies(page, count_per_page);
+      const response = await getMovies(page, count_per_page, searchTerm);
       console.log("response: ", response);
       setTotalPages(response.pages);
       setMovies(response.data);
@@ -69,17 +70,30 @@ const Movies = () => {
   }, []);
 
   useEffect(() => {
-      fetchMovies();
-  }, [page, count_per_page]);
+    fetchMovies();
+  }, [page, count_per_page, searchTerm]);
 
   useEffect(() => {
     console.log("fresh movies: ", movies);
   }),
     [movies];
 
-    // TODO: fix overflow issues
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // TODO: fix overflow issues, also fix layout/reload animations
   return (
     <div className="p-4 text-black overflow-auto flex flex-col justify-center space-y-3">
+      <div className="mb-4 flex">
+        <input
+          type="text"
+          placeholder="Search movies..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
       <div className="flex flex-wrap justify-center overflow-auto">
         {movies.map((movie, index) => (
           <div key={index} className="w-auto px-2 mb-4">
@@ -105,12 +119,33 @@ const Movies = () => {
         ))}
       </div>
       <div className="page-buttons flex justify-center space-x-4 text-white">
-        <button className={`${!hasPrevious ? "text-gray-500 " : ""}`} disabled={!hasPrevious} onClick={() => setPage(previousPage)}>Previous</button>
-        <input type="number" value={page} onChange={(e) => setPage(parseInt(e.target.value))} className="text-black text-center w-10"/><span>/</span><div>{totalPages}</div>
-        <button className={`${!hasNext ? "text-gray-500 " : ""}`} disabled={!hasNext} onClick={() => setPage(nextPage)}>Next</button>
+        <button
+          className={`${!hasPrevious ? "text-gray-500 " : ""}`}
+          disabled={!hasPrevious}
+          onClick={() => setPage(previousPage)}
+        >
+          Previous
+        </button>
+        <input
+          type="number"
+          value={page}
+          onChange={(e) => setPage(parseInt(e.target.value))}
+          className="text-black text-center w-10"
+        />
+        <span>/</span>
+        <div>{totalPages}</div>
+        <button
+          className={`${!hasNext ? "text-gray-500 " : ""}`}
+          disabled={!hasNext}
+          onClick={() => setPage(nextPage)}
+        >
+          Next
+        </button>
       </div>
       <div className="per-page-selection-container flex justify-center space-x-4">
-        <label htmlFor="per-page" className="text-white">per page</label>
+        <label htmlFor="per-page" className="text-white">
+          per page
+        </label>
         <select
           id="per-page"
           value={count_per_page}

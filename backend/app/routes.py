@@ -60,13 +60,23 @@ def get_configuration():
     return jsonify(response.json())
     
 
+# todo: refine search if possible
 @api.route('/movies', methods=['GET'])
 def get_movies():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
+    search = request.args.get('search', '', type=str)
+    
     print("page: " + str(page))
-    print("per_page: " + str(per_page))
-    movie_page = db.paginate(db.select(Movie).where(Movie.poster_path != ""), page=page, per_page=per_page)
+    print("per_page: " + str(per_page))  
+    
+    # Apply the search filter
+    query = db.select(Movie).where(Movie.poster_path != "")
+    if search:
+        query = query.filter(Movie.title.ilike(f"%{search}%"))
+
+    # Paginate the filtered results
+    movie_page = db.paginate(query, page=page, per_page=per_page)
     movies = movie_page.items
     return jsonify({
         'data': [movie.to_dict() for movie in movies],
