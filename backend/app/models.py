@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column # type: ignore
 from app import db
 
+# Movie db for machine learning, frontend will use tmdb api endpoints
 class Movie(db.Model):
     __tablename__ = "movies"
     id: Mapped[int] = mapped_column(primary_key=True)

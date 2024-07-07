@@ -20,7 +20,7 @@ const Header = ({ className = "" }: { className?: string }) => {
   return (
     <header className={`bg-gray-800 text-white ${className} w-screen flex`}>
     <div className="z-10 absolute">
-        <p onClick={() => router.push("/movies")}>Movies</p>
+        <p onClick={() => router.push("/movies")} className={"text-center hover:cursor-pointer"}>Movies</p>
         </div>
       <div className="grow-0 container mx-auto p-2 z-0">
         <p className="text-center hover:cursor-pointer" onClick={() => router.push("/")}>Movie Recs</p>

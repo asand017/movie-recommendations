@@ -1,7 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { getConfiguration, getMovies } from "@/utils/api";
+import {
+  getConfiguration,
+  getMovies,
+  getTmdbMovies,
+  searchTmdbMovies,
+} from "@/utils/api";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -13,6 +18,7 @@ const Movies = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [hasNext, setHasNext] = useState(false);
   const [hasPrevious, setHasPrevious] = useState(false);
+  const [totalResults, setTotalResults] = useState(0);
   const [nextPage, setNextPage] = useState(2);
   const [previousPage, setPreviousPage] = useState(1);
   const [count_per_page, setCountPerPage] = useState(20);
@@ -20,20 +26,20 @@ const Movies = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState<
     {
-      title: string;
-      description: string;
+      adult: Boolean;
+      overview: string;
       backdrop_path: string;
-      imdb_id: string;
-      directors: string[];
-      genre: string;
-      id: number;
-      imdb_rating: number;
-      imdb_votes: number;
+      id: Number;
+      genre_ids: number[];
+      original_language: string;
+      original_title: string;
+      popularity: number;
+      release_date: string;
+      title: string;
+      video: Boolean;
+      vote_average: string;
+      vote_count: number;
       poster_path: string;
-      review: string;
-      runtime: number;
-      tmdb_id: number;
-      year: number;
     }[]
   >([]);
   const { isAuthenticated, logout } = useAuth();
@@ -51,16 +57,28 @@ const Movies = () => {
 
   const fetchMovies = async () => {
     try {
-      const response = await getMovies(page, count_per_page, searchTerm);
+      const response = await getTmdbMovies(); //await getMovies(page, count_per_page, searchTerm);
       console.log("response: ", response);
-      setTotalPages(response.pages);
-      setMovies(response.data);
-      setHasNext(response.has_next);
-      setHasPrevious(response.has_prev);
-      setNextPage(response.next_page);
-      setPreviousPage(response.prev_page);
+      setTotalPages(response.total_pages);
+      setMovies(response.results);
+      setTotalResults(response.total_results);
+      // setHasNext(response.has_next);
+      // setHasPrevious(response.has_prev);
+      // setNextPage(response.next_page);
+      // setPreviousPage(response.prev_page);
     } catch (error) {
       console.log("problem fetching movies: ", error);
+    }
+  };
+
+  const searchMovies = async () => {
+    try {
+      const response = await searchTmdbMovies(searchTerm);
+      setTotalPages(response.total_pages);
+      setMovies(response.results);
+      setTotalResults(response.total_results);
+    } catch (error) {
+      console.log("problem fetching searched movies: ", error);
     }
   };
 
@@ -71,7 +89,15 @@ const Movies = () => {
 
   useEffect(() => {
     fetchMovies();
-  }, [page, count_per_page, searchTerm]);
+  }, [page]); // [page, count_per_page]);
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      fetchMovies();
+    } else {
+      searchMovies();
+    }
+  }, [searchTerm]);
 
   useEffect(() => {
     console.log("fresh movies: ", movies);
@@ -108,7 +134,7 @@ const Movies = () => {
                   />
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => router.push(`/movies/${movie.tmdb_id}`)}
+                    onClick={() => router.push(`/movies/${movie.id}`)} // tmdb movie id
                   >
                     View Details
                   </button>
@@ -120,9 +146,11 @@ const Movies = () => {
       </div>
       <div className="page-buttons flex justify-center space-x-4 text-white">
         <button
-          className={`${!hasPrevious ? "text-gray-500 " : ""}`}
+          className={`${!(page > 1) ? "text-gray-500 " : ""}`}
           disabled={!hasPrevious}
-          onClick={() => setPage(previousPage)}
+          onClick={() => {
+            if (page > 1) setPage(page - 1);
+          }}
         >
           Previous
         </button>
@@ -135,14 +163,16 @@ const Movies = () => {
         <span>/</span>
         <div>{totalPages}</div>
         <button
-          className={`${!hasNext ? "text-gray-500 " : ""}`}
+          className={`${!(page < totalPages) ? "text-gray-500 " : ""}`}
           disabled={!hasNext}
-          onClick={() => setPage(nextPage)}
+          onClick={() => {
+            if (page < totalPages) setPage(page + 1);
+          }}
         >
           Next
         </button>
       </div>
-      <div className="per-page-selection-container flex justify-center space-x-4">
+      {/* <div className="per-page-selection-container flex justify-center space-x-4">
         <label htmlFor="per-page" className="text-white">
           per page
         </label>
@@ -155,7 +185,7 @@ const Movies = () => {
           <option value={50}>50</option>
           <option value={100}>100</option>
         </select>
-      </div>
+      </div> */}
     </div>
   );
 };

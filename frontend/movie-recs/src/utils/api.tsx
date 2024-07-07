@@ -23,6 +23,20 @@ export const getConfiguration = async () => {
   return response.data;
 };
 
+export const getTmdbMovies = async () => {
+  const response = await api.get('/tmdb/movies');
+  return response?.data;
+};
+
+export const searchTmdbMovies = async (query: string) => {
+  const response = await api.get('/tmdb/search', {
+    params: {
+        "search": query
+    }
+  });
+  return response?.data;
+}
+
 export const getMovies = async (page_number: number = 1, per_page: number = 10, search: string = "") => {
   console.log("fetching movies: ", page_number, per_page);
   const response = await api.get('/movies', {

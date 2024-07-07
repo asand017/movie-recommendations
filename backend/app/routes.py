@@ -47,6 +47,7 @@ def logout():
     unset_jwt_cookies(response)
     return response
 
+# tmdb call to get configuration
 @api.route('/configuration', methods=['GET'])
 def get_configuration():
     tmdb_token = os.getenv('TMDB_TOKEN')
@@ -56,6 +57,31 @@ def get_configuration():
     }
     
     url = "https://api.themoviedb.org/3/configuration"
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
+    
+@api.route('/tmdb/movies', methods=['GET'])
+def get_tmdb_movies():
+    tmdb_token = os.getenv('TMDB_TOKEN')
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer " + tmdb_token
+    }
+    
+    url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc"
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
+
+@api.route('/tmdb/search', methods=['GET'])
+def get_tmdb_search():
+    tmdb_token = os.getenv('TMDB_TOKEN')
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer " + tmdb_token
+    }
+    
+    search = request.args.get('search', '', type=str)
+    url = f"https://api.themoviedb.org/3/search/movie?query={search}&include_adult=false&language=en-US&page=1"
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
     
