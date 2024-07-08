@@ -9,8 +9,6 @@ const Preferences = () => {
     return(
         <div className="flex flex-col justify-center items-center content-center space-y-2">
             <h1>We need a some starting data to start recommending you movies</h1>
-            {/* {isAuthenticated && <p>Authenticated</p>}
-            {!isAuthenticated && <p>Not authenticated</p>} */}
             <button className="bg-blue-500 w-1/4 grow-0 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => router.push("/preferences/favorites")}>get started</button>
         </div>
     );

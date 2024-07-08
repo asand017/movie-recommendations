@@ -68,7 +68,8 @@ def get_tmdb_movies():
         "Authorization": "Bearer " + tmdb_token
     }
     
-    url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc"
+    page = request.args.get('page', 1, type=int)
+    url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page={page}&sort_by=popularity.desc"
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
 
@@ -81,7 +82,21 @@ def get_tmdb_search():
     }
     
     search = request.args.get('search', '', type=str)
-    url = f"https://api.themoviedb.org/3/search/movie?query={search}&include_adult=false&language=en-US&page=1"
+    page = request.args.get('page', 1, type=int)
+    url = f"https://api.themoviedb.org/3/search/movie?query={search}&include_adult=false&language=en-US&page={page}"
+    response = requests.get(url, headers=headers)
+    return jsonify(response.json())
+
+@api.route('/tmdb/popular', methods=['GET'])
+def get_tmdb_popular():
+    tmdb_token = os.getenv('TMDB_TOKEN')
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer " + tmdb_token
+    }
+    
+    page = request.args.get('page', 1, type=int)
+    url = f"https://api.themoviedb.org/3/movie/popular?language=en-US&page={page}"
     response = requests.get(url, headers=headers)
     return jsonify(response.json())
     

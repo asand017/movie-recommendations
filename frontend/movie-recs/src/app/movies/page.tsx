@@ -57,7 +57,7 @@ const Movies = () => {
 
   const fetchMovies = async () => {
     try {
-      const response = await getTmdbMovies(); //await getMovies(page, count_per_page, searchTerm);
+      const response = await getTmdbMovies(page); //await getMovies(page, count_per_page, searchTerm);
       console.log("response: ", response);
       setTotalPages(response.total_pages);
       setMovies(response.results);
@@ -73,7 +73,7 @@ const Movies = () => {
 
   const searchMovies = async () => {
     try {
-      const response = await searchTmdbMovies(searchTerm);
+      const response = await searchTmdbMovies(searchTerm, page);
       setTotalPages(response.total_pages);
       setMovies(response.results);
       setTotalResults(response.total_results);
