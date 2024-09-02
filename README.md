@@ -1,4 +1,4 @@
-# ordained
+# movie recommendations
 Movie Recommendation System
 
 Objective: The system will provide personalized movie recommendations based on user preferences and viewing history. 
